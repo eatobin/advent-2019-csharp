@@ -1,0 +1,12 @@
+https://learn.microsoft.com/en-us/dotnet/fsharp/get-started/get-started-command-line
+https://aka.ms/new-console-template
+
+[eric@eric-ibm ~]$ cd fsharp-projects/
+[eric@eric-ibm fsharp-projects]$ dotnet new sln -o CsharpNewFromDotNet
+[eric@eric-ibm fsharp-projects]$ cd CsharpNewFromDotNet/
+[eric@eric-ibm FromDotNet]$ dotnet new console -lang "C#" -o src/App
+[eric@eric-ibm FromDotNet]$ dotnet sln add src/App/App.csproj
+[eric@eric-ibm FromDotNet]$ dotnet restore
+[eric@eric-ibm FromDotNet]$ dotnet build
+[eric@eric-ibm FromDotNet]$ cd src/App/
+[eric@eric-ibm App]$ dotnet run Program.cs
