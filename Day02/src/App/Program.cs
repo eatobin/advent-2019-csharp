@@ -1,24 +1,30 @@
 ﻿namespace App;
 
-public class Intcode(int pointer, int[] memory)
+public class Intcode
 {
-    public int Pointer { get; set; } = pointer;
-    public int[] Memory { get; } = memory;
+    public int Pointer;
+    public readonly int[] Memory = [111,222,333];
 }
 
 internal static class Program
 {
     public static void Main()
     {
-        var ic = new Intcode(1, [11]);
-        Console.WriteLine($"{ic.Pointer}");
-        Console.WriteLine($"{ic.Memory[0]}");
-
-        ic.Pointer = 2;
-        ic.Memory[0] = 222;
+        var ic = new Intcode();
 
         Console.WriteLine($"{ic.Pointer}");
         Console.WriteLine($"{ic.Memory[0]}");
+
+        ic.Pointer = 1;
+        ic.Memory[0] = 999;
+
+        Console.WriteLine($"{ic.Pointer}");
+        Console.WriteLine($"{ic.Memory[0]}");
+
+        ic.Memory[1] = 888;
+        Console.WriteLine($"{ic.Memory[0]}");
+        Console.WriteLine($"{ic.Memory[1]}");
+
 
         // // Create  struct instance and initialize by using "new".
         // // Memory is allocated on thread stack.
