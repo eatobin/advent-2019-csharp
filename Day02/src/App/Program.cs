@@ -3,7 +3,7 @@
 public class Intcode
 {
     public int Pointer;
-    public readonly int[] Memory = [111,222,333];
+    public readonly int[] Memory = new int[5];
 }
 
 internal static class Program
@@ -21,9 +21,9 @@ internal static class Program
         Console.WriteLine($"{ic.Pointer}");
         Console.WriteLine($"{ic.Memory[0]}");
 
-        ic.Memory[1] = 888;
-        Console.WriteLine($"{ic.Memory[0]}");
-        Console.WriteLine($"{ic.Memory[1]}");
+        ic.Memory[4] = 888;
+        Console.WriteLine($"{ic.Memory[3]}");
+        Console.WriteLine($"{ic.Memory[4]}");
 
 
         // // Create  struct instance and initialize by using "new".
