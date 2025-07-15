@@ -3,7 +3,34 @@
 public class Intcode
 {
     public int Pointer;
-    public readonly int[] Memory = new int[5];
+    public readonly int[] Memory = [1, 0, 0, 3, 99];
+
+    public int Add(int y)
+    {
+        return Pointer + y;
+    }
+
+    public int opcode()
+    {
+        var action = Memory[Pointer];
+        var address1 = Memory[Pointer + 1];
+        var address2 = Memory[Pointer + 2];
+        var address3 = Memory[Pointer + 3];
+
+        switch (action)
+        {
+            case 1:
+                Memory[address3] = Memory[address1] + Memory[address2];
+                Pointer += 4;
+                return 1;
+            case 2:
+                Memory[address3] = Memory[address1] * Memory[address2];
+                Pointer += 4;
+                return 1;
+            default:
+                return 0;
+        }
+    }
 }
 
 internal static class Program
@@ -25,6 +52,8 @@ internal static class Program
         Console.WriteLine($"{ic.Memory[3]}");
         Console.WriteLine($"{ic.Memory[4]}");
 
+        var xx = ic.Add(33);
+        Console.WriteLine($"{xx}");
 
         // // Create  struct instance and initialize by using "new".
         // // Memory is allocated on thread stack.
