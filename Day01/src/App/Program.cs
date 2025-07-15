@@ -39,6 +39,6 @@ internal static class Program
         Console.WriteLine($"\nPart A answer: {totalFuelA}, correct: 3337766");
 
         var totalFuelB = modules.Sum(Module.RecFuelValue);
-        Console.WriteLine($"Part B answer: {totalFuelB}, correct: 5003788");
+        Console.WriteLine($"Part B answer: {totalFuelB}, correct: 5003788\n");
     }
 }
