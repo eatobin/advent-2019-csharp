@@ -1,44 +1,36 @@
 ﻿namespace App;
 
-public static class Module
+public struct Person(string name, int age)
 {
-    public static int FuelValue(int mass) => mass / 3 - 2;
+    public string Name = name;
+    public int Age = age;
 
-    public static int RecFuelValue(int mass)
-    {
-        var sum = 0;
-        var fuel = FuelValue(mass);
-
-        while (fuel > 0)
-        {
-            sum += fuel;
-            fuel = FuelValue(fuel);
-        }
-
-        return sum;
-    }
+    public void Speak() => Console.WriteLine($"My Age: {Age}");
 }
 
-internal static class Program
+public static class Application
 {
-    public static void Main()
+    private static void Main()
     {
-        int[] modules =
-        [
-            68958, 82218, 54333, 59177, 51874, 100259, 95468, 124006, 75078, 113631, 90315, 147580, 68233, 81025,
-            133084, 90959, 81196, 92443, 124832, 65871, 57704, 140203, 113053, 76337, 72195, 115917, 87843, 131768,
-            105816, 131153, 59714, 94107, 50933, 139545, 94969, 149463, 60042, 66028, 111190, 63257, 50020, 88783,
-            81428, 73977, 149240, 137152, 74738, 55067, 128829, 56465, 81962, 67242, 94121, 92303, 68477, 88595, 64324,
-            82527, 134717, 140344, 132026, 137558, 95643, 79010, 146346, 86246, 52341, 147564, 89159, 66456, 83190,
-            128675, 130658, 122857, 134538, 122151, 133900, 117462, 117791, 139254, 86366, 66165, 92897, 121218, 135962,
-            143061, 129220, 114623, 98257, 76722, 121014, 77713, 137858, 133282, 103595, 118981, 149137, 101141, 70765,
-            141113
-        ];
+        // Create  struct instance and initialize by using "new".
+        // Memory is allocated on thread stack.
+        var p1 = new Person("Alex", 9);
+        Console.WriteLine($"p1 Name = {p1.Name} Age = {p1.Age}");
 
-        var totalFuelA = modules.Sum(Module.FuelValue);
-        Console.WriteLine($"\nPart A answer: {totalFuelA}, correct: 3337766");
+        // Create  new struct object. Note that struct can be initialized
+        // without using "new".
+        var p2 = p1;
 
-        var totalFuelB = modules.Sum(Module.RecFuelValue);
-        Console.WriteLine($"Part B answer: {totalFuelB}, correct: 5003788\n");
+        // Assign values to p2 members.
+        p2.Name = "Spencer";
+        p2.Age = 7;
+        Console.WriteLine($"p2 Name = {p2.Name} Age = {p2.Age}");
+
+        // p1 values remain unchanged because p2 is  copy.
+        Console.WriteLine($"p1 Name = {p1.Name} Age = {p1.Age}");
+
+        var p9 = new Person("Me", 99);
+        Console.WriteLine($"p9 Name = {p9.Name} Age = {p9.Age}");
+        p9.Speak();
     }
 }
