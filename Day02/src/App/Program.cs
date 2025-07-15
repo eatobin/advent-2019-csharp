@@ -31,6 +31,12 @@ public class Intcode
                 return 0;
         }
     }
+
+    public void updatedMemory(int noun, int verb)
+    {
+        Memory[1] = noun;
+        Memory[2] = verb;
+    }
 }
 
 internal static class Program
@@ -39,41 +45,6 @@ internal static class Program
     {
         var ic = new Intcode();
 
-        Console.WriteLine($"{ic.Pointer}");
-        Console.WriteLine($"{ic.Memory[0]}");
 
-        ic.Pointer = 1;
-        ic.Memory[0] = 999;
-
-        Console.WriteLine($"{ic.Pointer}");
-        Console.WriteLine($"{ic.Memory[0]}");
-
-        ic.Memory[4] = 888;
-        Console.WriteLine($"{ic.Memory[3]}");
-        Console.WriteLine($"{ic.Memory[4]}");
-
-        var xx = ic.Add(33);
-        Console.WriteLine($"{xx}");
-
-        // // Create  struct instance and initialize by using "new".
-        // // Memory is allocated on thread stack.
-        // var p1 = new Person("Alex", 9);
-        // Console.WriteLine($"p1 Name = {p1.Name} Age = {p1.Age}");
-        //
-        // // Create  new struct object. Note that struct can be initialized
-        // // without using "new".
-        // var p2 = p1;
-        //
-        // // Assign values to p2 members.
-        // p2.Name = "Spencer";
-        // p2.Age = 7;
-        // Console.WriteLine($"p2 Name = {p2.Name} Age = {p2.Age}");
-        //
-        // // p1 values remain unchanged because p2 is  copy.
-        // Console.WriteLine($"p1 Name = {p1.Name} Age = {p1.Age}");
-        //
-        // var p9 = new Person("Me", 99);
-        // Console.WriteLine($"p9 Name = {p9.Name} Age = {p9.Age}");
-        // p9.Speak();
     }
 }
