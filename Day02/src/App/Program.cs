@@ -40,22 +40,50 @@ public class Intcode
         Memory[1] = noun;
         Memory[2] = verb;
     }
+
+    public static int NounVerb()
+    {
+        for (var noun = 0; noun < 100; noun++)
+        {
+            for (var verb = 0; verb < 100; verb++)
+            {
+                var intcode = new Intcode();
+                intcode.UpdatedMemory(noun, verb);
+
+                var icReturn = 1;
+                while (icReturn == 1)
+                {
+                    icReturn = intcode.Opcode();
+                }
+
+                var candidate = intcode.Memory[0];
+
+                if (candidate == 19690720)
+                {
+                    return 100 * noun + verb;
+                }
+            }
+        }
+
+        return -1;
+    }
 }
 
 internal static class Program
 {
     public static void Main()
     {
-        var ic = new Intcode();
+        var intcode = new Intcode();
         var icReturn = 1;
 
-        ic.UpdatedMemory(12, 2);
+        intcode.UpdatedMemory(12, 2);
 
         while (icReturn == 1)
         {
-            icReturn = ic.Opcode();
+            icReturn = intcode.Opcode();
         }
 
-        Console.WriteLine($"\nPart A answer: {ic.Memory[0]}, correct: 2890696");
+        Console.WriteLine($"\nPart A answer: {intcode.Memory[0]}, correct: 2890696");
+        Console.WriteLine($"Part B answer: {Intcode.NounVerb()}, correct: 8226\n");
     }
 }
