@@ -1,4 +1,6 @@
-﻿namespace App;
+﻿// Okay - let's start doing what we have in fsharp!!!
+
+namespace App;
 
 public class Intcode
 {
