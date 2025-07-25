@@ -1,6 +1,8 @@
 ﻿namespace App;
 
 using Instruction = Dictionary<char, int>;
+using Index = int;
+using Value = int;
 
 public class Intcode
 {
@@ -68,6 +70,24 @@ public static class Opcode
         }
 
         return padded;
+    }
+
+    // let pr (intcode: IntCode) (offset: int) : Value =
+    // intcode.memory |> Map.find (writeToReadFromIndex intcode offset)
+
+    public static Index WriteToReadFromIndex(Intcode intcode, int offset)
+    {
+        return intcode.Memory[intcode.Pointer + offset];
+    }
+
+    public static Index PW(Intcode intcode, int offset)
+    {
+        return WriteToReadFromIndex(intcode, offset);
+    }
+
+    public static Value PR(Intcode intcode, int offset)
+    {
+        return intcode.Memory[WriteToReadFromIndex(intcode, offset)];
     }
 
     public static void UpdatedMemory(Intcode intcode, int noun, int verb)
