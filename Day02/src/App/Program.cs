@@ -44,7 +44,7 @@ public class Opcode
         intcode.Memory[2] = verb;
     }
 
-    public int NounVerb()
+    public static int NounVerb()
     {
         for (var noun = 0; noun < 100; noun++)
         {
@@ -77,7 +77,6 @@ internal static class Program
     public static void Main()
     {
         var intcode = new Intcode();
-        var opcode = new Opcode();
         var icReturn = 1;
 
         Opcode.UpdatedMemory(intcode, 12, 2);
@@ -88,6 +87,6 @@ internal static class Program
         }
 
         Console.WriteLine($"\nPart A answer: {intcode.Memory[0]}, correct: 2890696");
-        Console.WriteLine($"Part B answer: {opcode.NounVerb()}, correct: 8226\n");
+        Console.WriteLine($"Part B answer: {Opcode.NounVerb()}, correct: 8226\n");
     }
 }
