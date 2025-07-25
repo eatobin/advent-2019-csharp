@@ -18,10 +18,13 @@ public static class Opcode
 {
     public static int OpcodeRun(Intcode intcode)
     {
+        const int offsetC = 1;
+        const int offsetB = 2;
+        const int offsetA = 3;
         var action = intcode.Memory[intcode.Pointer];
-        var address1 = intcode.Memory[intcode.Pointer + 1];
-        var address2 = intcode.Memory[intcode.Pointer + 2];
-        var address3 = intcode.Memory[intcode.Pointer + 3];
+        var address1 = intcode.Memory[intcode.Pointer + offsetC];
+        var address2 = intcode.Memory[intcode.Pointer + offsetB];
+        var address3 = intcode.Memory[intcode.Pointer + offsetA];
 
         switch (action)
         {
