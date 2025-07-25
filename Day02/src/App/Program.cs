@@ -4,7 +4,7 @@ namespace App;
 
 public class Intcode
 {
-    private int _pointer;
+    public int Pointer;
 
     public readonly int[] Memory =
     [
@@ -14,61 +14,64 @@ public class Intcode
         75, 2, 6, 75, 79, 1, 5, 79, 83, 2, 83, 6, 87, 1, 5, 87, 91, 1, 6, 91, 95, 2, 95, 6, 99,
         1, 5, 99, 103, 1, 6, 103, 107, 1, 107, 2, 111, 1, 111, 5, 0, 99, 2, 14, 0, 0
     ];
+}
 
-    public int Opcode()
+public class Opcode
+{
+    public int OpcodeRun(Intcode intcode)
     {
-        var action = Memory[_pointer];
-        var address1 = Memory[_pointer + 1];
-        var address2 = Memory[_pointer + 2];
-        var address3 = Memory[_pointer + 3];
+        var action = intcode.Memory[intcode.Pointer];
+        var address1 = intcode.Memory[intcode.Pointer + 1];
+        var address2 = intcode.Memory[intcode.Pointer + 2];
+        var address3 = intcode.Memory[intcode.Pointer + 3];
 
         switch (action)
         {
             case 1:
-                Memory[address3] = Memory[address1] + Memory[address2];
-                _pointer += 4;
+                intcode.Memory[address3] = intcode.Memory[address1] + intcode.Memory[address2];
+                intcode.Pointer += 4;
                 return 1;
             case 2:
-                Memory[address3] = Memory[address1] * Memory[address2];
-                _pointer += 4;
+                intcode.Memory[address3] = intcode.Memory[address1] * intcode.Memory[address2];
+                intcode.Pointer += 4;
                 return 1;
             default:
                 return 0;
         }
     }
 
-    public void UpdatedMemory(int noun, int verb)
+    public void UpdatedMemory(Intcode intcode, int noun, int verb)
     {
-        Memory[1] = noun;
-        Memory[2] = verb;
+        intcode.Memory[1] = noun;
+        intcode.Memory[2] = verb;
     }
 
-    public static int NounVerb()
-    {
-        for (var noun = 0; noun < 100; noun++)
-        {
-            for (var verb = 0; verb < 100; verb++)
-            {
-                var intcode = new Intcode();
-                intcode.UpdatedMemory(noun, verb);
-
-                var icReturn = 1;
-                while (icReturn == 1)
-                {
-                    icReturn = intcode.Opcode();
-                }
-
-                var candidate = intcode.Memory[0];
-
-                if (candidate == 19690720)
-                {
-                    return 100 * noun + verb;
-                }
-            }
-        }
-
-        return -1;
-    }
+    // public int NounVerb()
+    // {
+    //     for (var noun = 0; noun < 100; noun++)
+    //     {
+    //         for (var verb = 0; verb < 100; verb++)
+    //         {
+    //             var intcode = new Intcode();
+    //             UpdatedMemory(intcode, noun, verb);
+    //
+    //             var icReturn = 1;
+    //             while (icReturn == 1)
+    //             {
+    //                 icReturn = OpcodeRun(intcode);
+    //             }
+    //
+    //             var candidate = intcode.Memory[0];
+    //
+    //             if (candidate == 19690720)
+    //             {
+    //                 return 100 * noun + verb;
+    //             }
+    //         }
+    //     }
+    //
+    //     return -1;
+    // }
 }
 
 internal static class Program
@@ -76,16 +79,17 @@ internal static class Program
     public static void Main()
     {
         var intcode = new Intcode();
+        var opcode = new Opcode();
         var icReturn = 1;
 
-        intcode.UpdatedMemory(12, 2);
+        opcode.UpdatedMemory(intcode, 12, 2);
 
         while (icReturn == 1)
         {
-            icReturn = intcode.Opcode();
+            icReturn = opcode.OpcodeRun(intcode);
         }
 
         Console.WriteLine($"\nPart A answer: {intcode.Memory[0]}, correct: 2890696");
-        Console.WriteLine($"Part B answer: {Intcode.NounVerb()}, correct: 8226\n");
+        // Console.WriteLine($"Part B answer: {Opcode.NounVerb()}, correct: 8226\n");
     }
 }
