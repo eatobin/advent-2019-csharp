@@ -60,7 +60,7 @@ public static class Opcode
     {
         var keys = new[] { 'a', 'b', 'c', 'd', 'e' };
         var values = op.ToString("00000");
-        var padded = new Dictionary<char, int>();
+        var padded = new Instruction();
 
         for (var i = 0; i < 5; i++)
         {
@@ -69,7 +69,6 @@ public static class Opcode
 
         return padded;
     }
-
 
     public static void UpdatedMemory(Intcode intcode, int noun, int verb)
     {
