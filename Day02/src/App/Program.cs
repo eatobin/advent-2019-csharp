@@ -14,7 +14,7 @@ public class Intcode
     ];
 }
 
-public class Opcode
+public static class Opcode
 {
     public static int OpcodeRun(Intcode intcode)
     {
