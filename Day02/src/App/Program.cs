@@ -46,32 +46,32 @@ public class Opcode
         intcode.Memory[2] = verb;
     }
 
-    // public int NounVerb()
-    // {
-    //     for (var noun = 0; noun < 100; noun++)
-    //     {
-    //         for (var verb = 0; verb < 100; verb++)
-    //         {
-    //             var intcode = new Intcode();
-    //             UpdatedMemory(intcode, noun, verb);
-    //
-    //             var icReturn = 1;
-    //             while (icReturn == 1)
-    //             {
-    //                 icReturn = OpcodeRun(intcode);
-    //             }
-    //
-    //             var candidate = intcode.Memory[0];
-    //
-    //             if (candidate == 19690720)
-    //             {
-    //                 return 100 * noun + verb;
-    //             }
-    //         }
-    //     }
-    //
-    //     return -1;
-    // }
+    public int NounVerb()
+    {
+        for (var noun = 0; noun < 100; noun++)
+        {
+            for (var verb = 0; verb < 100; verb++)
+            {
+                var intcode = new Intcode();
+                UpdatedMemory(intcode, noun, verb);
+
+                var icReturn = 1;
+                while (icReturn == 1)
+                {
+                    icReturn = OpcodeRun(intcode);
+                }
+
+                var candidate = intcode.Memory[0];
+
+                if (candidate == 19690720)
+                {
+                    return 100 * noun + verb;
+                }
+            }
+        }
+
+        return -1;
+    }
 }
 
 internal static class Program
@@ -90,6 +90,6 @@ internal static class Program
         }
 
         Console.WriteLine($"\nPart A answer: {intcode.Memory[0]}, correct: 2890696");
-        // Console.WriteLine($"Part B answer: {Opcode.NounVerb()}, correct: 8226\n");
+        Console.WriteLine($"Part B answer: {opcode.NounVerb()}, correct: 8226\n");
     }
 }
