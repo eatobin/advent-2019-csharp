@@ -37,27 +37,6 @@ public static class Opcode
     private const int OffsetB = 2;
     private const int OffsetA = 3;
 
-    public static int OpcodeRun(Intcode intcode)
-    {
-        var action = intcode.Memory[intcode.Pointer];
-        var address1 = intcode.Memory[intcode.Pointer + OffsetC];
-        var address2 = intcode.Memory[intcode.Pointer + OffsetB];
-        var address3 = intcode.Memory[intcode.Pointer + OffsetA];
-
-        switch (action)
-        {
-            case 1:
-                intcode.Memory[address3] = intcode.Memory[address1] + intcode.Memory[address2];
-                intcode.Pointer += 4;
-                return 1;
-            case 2:
-                intcode.Memory[address3] = intcode.Memory[address1] * intcode.Memory[address2];
-                intcode.Pointer += 4;
-                return 1;
-            default:
-                return 0;
-        }
-    }
 
     public static Instruction Pad5(int op)
     {
@@ -128,6 +107,43 @@ public static class Opcode
         }
 
         return 0;
+    }
+
+    public static int Add(Instruction instruction, Intcode intcode)
+    {
+        intcode.Pointer += 4;
+        intcode.Memory[Aparam(instruction, intcode)] =
+            Cparam(instruction, intcode) + Bparam(instruction, intcode);
+        return 1;
+    }
+
+    public static int Multiply(Instruction instruction, Intcode intcode)
+    {
+        intcode.Pointer += 4;
+        intcode.Memory[Aparam(instruction, intcode)] =
+            Cparam(instruction, intcode) * Bparam(instruction, intcode);
+        return 1;
+    }
+
+    public static int OpcodeRun(Intcode intcode)
+    {
+        var instruction = Pad5(intcode.Memory[intcode.Pointer]);
+
+        switch (instruction['e'])
+        {
+            case 1:
+                Add(instruction, intcode);
+                break;
+            case 2:
+                Multiply(instruction, intcode);
+                break;
+            case 9:
+                return 0;
+            default:
+                throw new ArgumentException("Intcode is not valid");
+        }
+
+        return -1;
     }
 
     public static void UpdatedMemory(Intcode intcode, int noun, int verb)
