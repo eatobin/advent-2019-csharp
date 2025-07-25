@@ -33,15 +33,16 @@ public static class Opcode
     // p i or r = position, immediate or relative mode
     // r or w = read or write
 
+    private const int OffsetC = 1;
+    private const int OffsetB = 2;
+    private const int OffsetA = 3;
+
     public static int OpcodeRun(Intcode intcode)
     {
-        const int offsetC = 1;
-        const int offsetB = 2;
-        const int offsetA = 3;
         var action = intcode.Memory[intcode.Pointer];
-        var address1 = intcode.Memory[intcode.Pointer + offsetC];
-        var address2 = intcode.Memory[intcode.Pointer + offsetB];
-        var address3 = intcode.Memory[intcode.Pointer + offsetA];
+        var address1 = intcode.Memory[intcode.Pointer + OffsetC];
+        var address2 = intcode.Memory[intcode.Pointer + OffsetB];
+        var address3 = intcode.Memory[intcode.Pointer + OffsetA];
 
         switch (action)
         {
@@ -72,9 +73,6 @@ public static class Opcode
         return padded;
     }
 
-    // let pr (intcode: IntCode) (offset: int) : Value =
-    // intcode.memory |> Map.find (writeToReadFromIndex intcode offset)
-
     public static Index WriteToReadFromIndex(Intcode intcode, int offset)
     {
         return intcode.Memory[intcode.Pointer + offset];
@@ -88,6 +86,48 @@ public static class Opcode
     public static Value PR(Intcode intcode, int offset)
     {
         return intcode.Memory[WriteToReadFromIndex(intcode, offset)];
+    }
+
+    public static Index Aparam(Instruction instruction, Intcode intcode)
+    {
+        switch (instruction['a'])
+        {
+            case 0:
+                PW(intcode, OffsetA); // a-p-w
+                break;
+            default:
+                throw new ArgumentException("Instruction is not valid");
+        }
+
+        return 0;
+    }
+
+    public static Value Bparam(Instruction instruction, Intcode intcode)
+    {
+        switch (instruction['b'])
+        {
+            case 0:
+                PR(intcode, OffsetB); // b-p-r
+                break;
+            default:
+                throw new ArgumentException("Instruction is not valid");
+        }
+
+        return 0;
+    }
+
+    public static Value Cparam(Instruction instruction, Intcode intcode)
+    {
+        switch (instruction['c'])
+        {
+            case 0:
+                PR(intcode, OffsetC); // c-p-r
+                break;
+            default:
+                throw new ArgumentException("Instruction is not valid");
+        }
+
+        return 0;
     }
 
     public static void UpdatedMemory(Intcode intcode, int noun, int verb)
