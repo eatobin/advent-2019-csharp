@@ -1,6 +1,4 @@
-﻿// Okay - let's start doing what we have in fsharp!!!
-
-namespace App;
+﻿namespace App;
 
 public class Intcode
 {
@@ -18,7 +16,7 @@ public class Intcode
 
 public class Opcode
 {
-    public int OpcodeRun(Intcode intcode)
+    public static int OpcodeRun(Intcode intcode)
     {
         var action = intcode.Memory[intcode.Pointer];
         var address1 = intcode.Memory[intcode.Pointer + 1];
@@ -40,7 +38,7 @@ public class Opcode
         }
     }
 
-    public void UpdatedMemory(Intcode intcode, int noun, int verb)
+    public static void UpdatedMemory(Intcode intcode, int noun, int verb)
     {
         intcode.Memory[1] = noun;
         intcode.Memory[2] = verb;
@@ -82,11 +80,11 @@ internal static class Program
         var opcode = new Opcode();
         var icReturn = 1;
 
-        opcode.UpdatedMemory(intcode, 12, 2);
+        Opcode.UpdatedMemory(intcode, 12, 2);
 
         while (icReturn == 1)
         {
-            icReturn = opcode.OpcodeRun(intcode);
+            icReturn = Opcode.OpcodeRun(intcode);
         }
 
         Console.WriteLine($"\nPart A answer: {intcode.Memory[0]}, correct: 2890696");
