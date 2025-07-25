@@ -1,5 +1,7 @@
 ﻿namespace App;
 
+using Instruction = Dictionary<char, int>;
+
 public class Intcode
 {
     public int Pointer;
@@ -16,6 +18,19 @@ public class Intcode
 
 public static class Opcode
 {
+    // Instruction:
+    // ABCDE
+    // 01234
+    // 01002
+    // 34(DE) - two-digit opcode,      02 == opcode 2
+    //  2(C) - mode of 1st parameter,  0 == position mode
+    //  1(B) - mode of 2nd parameter,  1 == immediate mode
+    //  0(A) - mode of 3rd parameter,  0 == position mode,
+    //                                   omitted due to being a leading zero
+    // 0 1 or 2 = left-to-right position after 2 digit opcode
+    // p i or r = position, immediate or relative mode
+    // r or w = read or write
+
     public static int OpcodeRun(Intcode intcode)
     {
         const int offsetC = 1;
@@ -40,6 +55,21 @@ public static class Opcode
                 return 0;
         }
     }
+
+    public static Instruction Pad5(int op)
+    {
+        var keys = new[] { 'a', 'b', 'c', 'd', 'e' };
+        var values = op.ToString("00000");
+        var padded = new Dictionary<char, int>();
+
+        for (var i = 0; i < 5; i++)
+        {
+            padded.Add(keys[i], values[i] - '0');
+        }
+
+        return padded;
+    }
+
 
     public static void UpdatedMemory(Intcode intcode, int noun, int verb)
     {
@@ -91,5 +121,12 @@ internal static class Program
 
         Console.WriteLine($"\nPart A answer: {intcode.Memory[0]}, correct: 2890696");
         Console.WriteLine($"Part B answer: {Opcode.NounVerb()}, correct: 8226\n");
+
+        var result = Opcode.Pad5(12345);
+
+        foreach (var entry in result)
+        {
+            Console.WriteLine($"Key = {entry.Key}, Value = {entry.Value}");
+        }
     }
 }
