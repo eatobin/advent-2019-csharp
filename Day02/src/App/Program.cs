@@ -37,7 +37,6 @@ public static class Opcode
     private const int OffsetB = 2;
     private const int OffsetA = 3;
 
-
     private static Instruction Pad5(int op)
     {
         var keys = new[] { 'a', 'b', 'c', 'd', 'e' };
