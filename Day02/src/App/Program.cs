@@ -38,7 +38,7 @@ public static class Opcode
     private const int OffsetA = 3;
 
 
-    public static Instruction Pad5(int op)
+    private static Instruction Pad5(int op)
     {
         var keys = new[] { 'a', 'b', 'c', 'd', 'e' };
         var values = op.ToString("00000");
@@ -52,77 +52,63 @@ public static class Opcode
         return padded;
     }
 
-    public static Index WriteToReadFromIndex(Intcode intcode, int offset)
+    private static Index WriteToReadFromIndex(Intcode intcode, int offset)
     {
         return intcode.Memory[intcode.Pointer + offset];
     }
 
-    public static Index PW(Intcode intcode, int offset)
+    private static Index Pw(Intcode intcode, int offset)
     {
         return WriteToReadFromIndex(intcode, offset);
     }
 
-    public static Value PR(Intcode intcode, int offset)
+    private static Value Pr(Intcode intcode, int offset)
     {
         return intcode.Memory[WriteToReadFromIndex(intcode, offset)];
     }
 
-    public static Index Aparam(Instruction instruction, Intcode intcode)
+    private static Index Aparam(Instruction instruction, Intcode intcode)
     {
-        switch (instruction['a'])
+        return instruction['a'] switch
         {
-            case 0:
-                PW(intcode, OffsetA); // a-p-w
-                break;
-            default:
-                throw new ArgumentException("Instruction is not valid");
-        }
-
-        return 0;
+            0 => Pw(intcode, OffsetA) // a-p-w
+            ,
+            _ => throw new ArgumentException("Instruction is not valid")
+        };
     }
 
-    public static Value Bparam(Instruction instruction, Intcode intcode)
+    private static Value Bparam(Instruction instruction, Intcode intcode)
     {
-        switch (instruction['b'])
+        return instruction['b'] switch
         {
-            case 0:
-                PR(intcode, OffsetB); // b-p-r
-                break;
-            default:
-                throw new ArgumentException("Instruction is not valid");
-        }
-
-        return 0;
+            0 => Pr(intcode, OffsetB) // b-p-r
+            ,
+            _ => throw new ArgumentException("Instruction is not valid")
+        };
     }
 
-    public static Value Cparam(Instruction instruction, Intcode intcode)
+    private static Value Cparam(Instruction instruction, Intcode intcode)
     {
-        switch (instruction['c'])
+        return instruction['c'] switch
         {
-            case 0:
-                PR(intcode, OffsetC); // c-p-r
-                break;
-            default:
-                throw new ArgumentException("Instruction is not valid");
-        }
-
-        return 0;
+            0 => Pr(intcode, OffsetC) // c-p-r
+            ,
+            _ => throw new ArgumentException("Instruction is not valid")
+        };
     }
 
-    public static int Add(Instruction instruction, Intcode intcode)
+    private static void Add(Instruction instruction, Intcode intcode)
     {
-        intcode.Pointer += 4;
         intcode.Memory[Aparam(instruction, intcode)] =
             Cparam(instruction, intcode) + Bparam(instruction, intcode);
-        return 1;
+        intcode.Pointer += 4;
     }
 
-    public static int Multiply(Instruction instruction, Intcode intcode)
+    private static void Multiply(Instruction instruction, Intcode intcode)
     {
-        intcode.Pointer += 4;
         intcode.Memory[Aparam(instruction, intcode)] =
             Cparam(instruction, intcode) * Bparam(instruction, intcode);
-        return 1;
+        intcode.Pointer += 4;
     }
 
     public static int OpcodeRun(Intcode intcode)
@@ -133,17 +119,15 @@ public static class Opcode
         {
             case 1:
                 Add(instruction, intcode);
-                break;
+                return 1;
             case 2:
                 Multiply(instruction, intcode);
-                break;
+                return 1;
             case 9:
                 return 0;
             default:
                 throw new ArgumentException("Intcode is not valid");
         }
-
-        return -1;
     }
 
     public static void UpdatedMemory(Intcode intcode, int noun, int verb)
@@ -196,12 +180,5 @@ internal static class Program
 
         Console.WriteLine($"\nPart A answer: {intcode.Memory[0]}, correct: 2890696");
         Console.WriteLine($"Part B answer: {Opcode.NounVerb()}, correct: 8226\n");
-
-        var result = Opcode.Pad5(12345);
-
-        foreach (var entry in result)
-        {
-            Console.WriteLine($"Key = {entry.Key}, Value = {entry.Value}");
-        }
     }
 }
