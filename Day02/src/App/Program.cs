@@ -70,8 +70,7 @@ public static class Opcode
     {
         return instruction['a'] switch
         {
-            0 => Pw(intcode, OffsetA) // a-p-w
-            ,
+            0 => Pw(intcode, OffsetA), // a-p-w
             _ => throw new ArgumentException("Instruction is not valid")
         };
     }
@@ -80,8 +79,7 @@ public static class Opcode
     {
         return instruction['b'] switch
         {
-            0 => Pr(intcode, OffsetB) // b-p-r
-            ,
+            0 => Pr(intcode, OffsetB), // b-p-r
             _ => throw new ArgumentException("Instruction is not valid")
         };
     }
@@ -90,8 +88,7 @@ public static class Opcode
     {
         return instruction['c'] switch
         {
-            0 => Pr(intcode, OffsetC) // c-p-r
-            ,
+            0 => Pr(intcode, OffsetC), // c-p-r
             _ => throw new ArgumentException("Instruction is not valid")
         };
     }
